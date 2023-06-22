@@ -1,11 +1,11 @@
 const router = require("express").Router();
 const authController = require("../../controller/authController");
-const checkUserToken = require("../../utilities/tokenmanager/checkUserToken");
+const checkpermission = require("../../utilities/tokenmanager/checkpermission");
 const authValidator = require("../../utilities/validations/authValidation");
 
 router.post("/register", authValidator.register, authController.register);
 router.post("/login", authValidator.login, authController.login);
-router.post("/details", checkUserToken, authController.details);
-router.post("/details/update", checkUserToken, authController.update_details);
+router.get("/details", checkpermission, authController.details);
+router.post("/details/update", checkpermission, authController.update_details);
 
 module.exports = router;

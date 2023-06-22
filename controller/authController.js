@@ -45,6 +45,49 @@ var AuthController = {
         }
     },
 
+    login: async (req, res) => {
+        let foundUser = await UserModel.select({
+            email: req.bodyString("email"),
+        });
+
+        if (foundUser.length > 0) {
+            let submittedPass = req.bodyString("password");
+            let plainPassword = await enc_dec.decrypt(foundUser[0].password);
+
+            if (submittedPass === plainPassword) {
+                payload = {
+                    id: foundUser[0].id,
+                    full_name: foundUser[0].full_name,
+                    email: foundUser[0].email,
+                    position: foundUser[0].position,
+                };
+                const token = accessToken(payload);
+                let res_data = {
+                    full_name: foundUser[0].full_name,
+                    position: foundUser[0].position,
+                    token: token,
+                };
+                res.status(200).json({
+                    status: true,
+                    data: res_data,
+                    message: "User logged in successfully!",
+                });
+            } else {
+                res.status(500).json({
+                    status: false,
+                    data: {},
+                    error: "Wrong Password!",
+                });
+            }
+        } else {
+            res.status(500).json({
+                status: false,
+                data: {},
+                error: "User not exists!",
+            });
+        }
+    },
+
     details: async (req, res) => {
         try {
             let id = req.user.id;
@@ -85,7 +128,7 @@ var AuthController = {
             });
         }
     },
-    
+
     update_details: async (req, res) => {
         try {
             const currentDate = moment().format("YYYY-MM-DD");
@@ -118,49 +161,6 @@ var AuthController = {
             res.status(500).json({
                 status: false,
                 message: "Server side error! Try again.",
-            });
-        }
-    },
-
-    login: async (req, res) => {
-        let foundUser = await UserModel.select({
-            email: req.bodyString("email"),
-        });
-
-        if (foundUser.length > 0) {
-            let submittedPass = req.bodyString("password");
-            let plainPassword = await enc_dec.decrypt(foundUser[0].password);
-
-            if (submittedPass === plainPassword) {
-                payload = {
-                    id: foundUser[0].id,
-                    full_name: foundUser[0].full_name,
-                    email: foundUser[0].email,
-                    position: foundUser[0].position,
-                };
-                const token = accessToken(payload);
-                let res_data = {
-                    full_name: foundUser[0].full_name,
-                    position: foundUser[0].position,
-                    token: token,
-                };
-                res.status(200).json({
-                    status: true,
-                    data: res_data,
-                    message: "User logged in successfully!",
-                });
-            } else {
-                res.status(500).json({
-                    status: false,
-                    data: {},
-                    error: "Wrong Password!",
-                });
-            }
-        } else {
-            res.status(500).json({
-                status: false,
-                data: {},
-                error: "User not exists!",
             });
         }
     },
