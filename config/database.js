@@ -10,7 +10,7 @@ const pool = new QueryBuilder(
         password: config.password,
         host: config.host,
         database: config.database,
-        timezone: "utc+5.30",
+        timezone: "utc+06.00",
         pool_size: 1000,
         pool_min: 1000,
         acquireTimeout: 10000,
