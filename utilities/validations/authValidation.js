@@ -74,7 +74,7 @@ const authValidation = {
 
         try {
             const result = schema.validate(req.body);
-            const isEmailExist = await check_if_email_exist(
+            const isEmailExist = await helpers.check_if_email_exist(
                 req.bodyString("email"),
                 "users"
             );
@@ -93,6 +93,7 @@ const authValidation = {
                 next();
             }
         } catch (error) {
+            console.log(error);
             res.status(500).json({
                 status: false,
                 error: "Server side error!",
