@@ -1,11 +1,6 @@
 require("dotenv").config();
-const CourseModel = require("../model/courseModel");
-const accessToken = require("../utilities/tokenmanager/token");
-const enc_dec = require("../utilities/decryptor/decryptor");
-const moment = require("moment");
-const { get_user_id_by_email } = require("../utilities/helper/general_helper");
 const helpers = require("../utilities/helper/general_helper");
-let static_url = process.env.STATIC_FILE_URL;
+
 
 var DashboardController = {
     list: async (req, res) => {
@@ -89,13 +84,11 @@ var DashboardController = {
         try {
             let time_period = req.bodyString("time_period");
             let data = await helpers.generateCourseProgressData(time_period);
-            // console.log("data", data);
-            // console.log(JSON.stringify(data, null, 2));
 
             res.status(200).json({
                 status: true,
                 progress: data,
-                message: "Statics fetched successfully!",
+                message: "Chart data fetched successfully!",
             });
 
         } catch (error) {
