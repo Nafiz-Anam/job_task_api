@@ -200,14 +200,14 @@ var UserController = {
                 .then((result) => {
                     res.status(200).json({
                         status: true,
-                        message: "Review added successfully!",
+                        message: "Comment added successfully!",
                     });
                 })
                 .catch((err) => {
                     console.log(err);
                     res.status(500).json({
                         status: false,
-                        message: "Unable to create review. Try again!",
+                        message: "Unable to add comment. Try again!",
                     });
                 });
         } catch (error) {
