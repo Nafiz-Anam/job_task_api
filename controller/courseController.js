@@ -1,9 +1,6 @@
 require("dotenv").config();
 const CourseModel = require("../model/courseModel");
-const accessToken = require("../utilities/tokenmanager/token");
 const enc_dec = require("../utilities/decryptor/decryptor");
-const moment = require("moment");
-const { get_user_id_by_email } = require("../utilities/helper/general_helper");
 const helpers = require("../utilities/helper/general_helper");
 let static_url = process.env.STATIC_FILE_URL;
 
@@ -63,15 +60,17 @@ var UserController = {
                     let send_res = [];
                     for (let val of result) {
                         let course_data = {
-                            id: enc_dec.encrypt(val.id),
-                            teacher_id: enc_dec.encrypt(val.teacher_id),
-                            lesson_name: val.lesson_name,
-                            description: val.description,
-                            price: val.price,
-                            tags: JSON.parse(val.tags),
-                            main_course_file: val.main_course_file,
-                            thumbnail_file: val.thumbnail_file,
-                            introduction_file: val.introduction_file,
+                            id: val.id ? enc_dec.encrypt(val.id) : "",
+                            teacher_id: val.teacher_id
+                                ? enc_dec.encrypt(val.teacher_id)
+                                : "",
+                            lesson_name: val.lesson_name ? val.lesson_name : "",
+                            description: val.description ? val.description : "",
+                            price: val.price ? val.price : "",
+                            tags: val.tags ? JSON.parse(val.tags) : "",
+                            main_course_file: val.main_course_file ? val.main_course_file : "",
+                            thumbnail_file: val.thumbnail_file ? val.thumbnail_file : "",
+                            introduction_file: val.introduction_file ? val.introduction_file : "",
                         };
                         send_res.push(course_data);
                     }
@@ -147,19 +146,27 @@ var UserController = {
                         }
 
                         let course_data = {
-                            course_id: enc_dec.encrypt(val.id),
-                            lesson_name: val.lesson_name,
-                            description: val.description,
-                            price: val.price,
+                            course_id: val.id ? enc_dec.encrypt(val.id) : "",
+                            lesson_name: val.lesson_name ? val.lesson_name : "",
+                            description: val.description ? val.description : "",
+                            price: val.price ? val.price : "",
                             tags: JSON.parse(val.tags),
-                            main_course_file: val.main_course_file,
-                            thumbnail_file: val.thumbnail_file,
-                            introduction_file: val.introduction_file,
+                            main_course_file: val.main_course_file
+                                ? val.main_course_file
+                                : "",
+                            thumbnail_file: val.thumbnail_file
+                                ? val.thumbnail_file
+                                : "",
+                            introduction_file: val.introduction_file
+                                ? val.introduction_file
+                                : "",
                             teacher_info: {
-                                teacher_id: enc_dec.encrypt(val.teacher_id),
-                                full_name: teacher_info[0].full_name,
+                                teacher_id: val.teacher_id ? enc_dec.encrypt(
+                                    val.teacher_id
+                                ) : "",
+                                full_name: teacher_info[0].full_name ? teacher_info[0].full_name : "",
                                 institution_name:
-                                    teacher_info[0].institution_name,
+                                    teacher_info[0].institution_name ? teacher_info[0].institution_name : "",
                             },
                             comment_info: cmt_arr,
                         };
