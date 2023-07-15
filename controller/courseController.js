@@ -150,7 +150,7 @@ var UserController = {
                             lesson_name: val.lesson_name ? val.lesson_name : "",
                             description: val.description ? val.description : "",
                             price: val.price ? val.price : "",
-                            tags: JSON.parse(val.tags),
+                            tags: val.tags ? JSON.parse(val.tags) : "",
                             main_course_file: val.main_course_file
                                 ? val.main_course_file
                                 : "",
@@ -161,12 +161,16 @@ var UserController = {
                                 ? val.introduction_file
                                 : "",
                             teacher_info: {
-                                teacher_id: val.teacher_id ? enc_dec.encrypt(
-                                    val.teacher_id
-                                ) : "",
-                                full_name: teacher_info[0].full_name ? teacher_info[0].full_name : "",
-                                institution_name:
-                                    teacher_info[0].institution_name ? teacher_info[0].institution_name : "",
+                                teacher_id: val.teacher_id
+                                    ? enc_dec.encrypt(val.teacher_id)
+                                    : "",
+                                full_name: teacher_info[0].full_name
+                                    ? teacher_info[0].full_name
+                                    : "",
+                                institution_name: teacher_info[0]
+                                    .institution_name
+                                    ? teacher_info[0].institution_name
+                                    : "",
                             },
                             comment_info: cmt_arr,
                         };
